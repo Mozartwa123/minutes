@@ -1,0 +1,1 @@
+void putlog(int log_st, char* log_message);
