@@ -4,7 +4,11 @@
  // #include <stdio.h>
 
 int main(void){
-    mset x = load_mset(10, 10, 0);
+    FILE* file = fopen("youtube_films.txt", "r");
+    if(file == NULL){
+        return 1;
+    }
+    mset x = load_mset(10, 10, 0, file);
     print_mset(0, 0, '\n', ' ', x);
     minute m = sumset(x, 0);
     print_minute(0, ' ', m);
@@ -18,4 +22,5 @@ int main(void){
     qsort_minutes_by_row(x, 1, compare_by_film_data_row);
     print_mset(0, 0, '\n', ' ', x);
     free_mset(x, 0);
+    fclose(file);
 }

@@ -78,20 +78,23 @@ int isnull(minute susminute){
     return 0;
 }
 
-minute loadminute(int intdata_inital_size, int log_wanted){
+minute loadminute(int intdata_inital_size, int log_wanted, FILE* source_stream){
     int min, sec;
-    if(scanf("%i:%i", &min, &sec)!=2){
+    if(fscanf(source_stream, "%i:%i", &min, &sec)!=2){
         fputs("Reading data error! The input should be minutes:seconds [additional int data] \n", stderr);
         return NULL;
     }
-    getchar();
-    intdata film_data = load_intdata(log_wanted, intdata_inital_size);
+    //printf("Data\n");
+    fgetc(source_stream);
+    intdata film_data = load_intdata(log_wanted, intdata_inital_size, source_stream);
     if(isnull_intdata(film_data)) return NULL;
     minute new_minute = allocate_minute(min, sec, film_data);
     if(isnull(new_minute)){
         return NULL;
     }
     putlog(log_wanted, "Minute allocated succsessfully!\n");
+    // fclose(source_stream);
+    //printf("Data\n");
     return new_minute;
 }
 

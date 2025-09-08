@@ -74,7 +74,8 @@ intdata realloc_intdata(intdata x, int newsize, int log_wanted){
     return x;
 }
 
-intdata load_intdata(int log_wanted, int intdata_initial_size){
+intdata load_intdata(int log_wanted, int intdata_initial_size, FILE* source_stream){
+    //printf("Data\n");
     intdata x = make_intdata(intdata_initial_size);
     if(isnull_intdata(x)){
         return NULL;
@@ -82,8 +83,9 @@ intdata load_intdata(int log_wanted, int intdata_initial_size){
     int i = 0;
     int data;
     char c = ' ';
-    for(; c != '\n' && scanf("%i", &data) == 1; i++){
-        c = getchar();
+    for(; c != '\n' && fscanf(source_stream,"%i", &data) == 1; i++){
+        //printf("Data\n");
+        c = fgetc(source_stream);
         if(i == x -> realen){
             if(realloc_intdata(x, x->realen + intdata_initial_size, log_wanted) == NULL){
                 return NULL;
@@ -96,6 +98,7 @@ intdata load_intdata(int log_wanted, int intdata_initial_size){
                 return NULL;
         }
     }
+    //fclose(source_stream);
     x -> len = i;
     return x;
 }

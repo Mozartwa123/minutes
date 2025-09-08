@@ -13,7 +13,7 @@ minute killcarryseconds(minute susminute);
 minute sum_two_minutes(minute fst_minute, minute snd_minute, int log_wanted);
 void print_minute(int enable_puctors, char delimitter, minute printed);
 int isnull(minute susminute);
-minute loadminute(int intdata_inital_size, int log_wanted);
+minute loadminute(int intdata_inital_size, int log_wanted, FILE* source_stream);
 minute copy_minute(minute copied);
 int minutescmp(minute fst_minute, minute snd_minute);
 int compare_by_film_data_row(minute fst_minute, minute snd_minute, int film_data_row_num);

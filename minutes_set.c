@@ -38,7 +38,7 @@ mset mset_allocate(int initial_size, int log_wanted){
         free(mtab); 
         return NULL;
     }
-    putlog(log_wanted, "Realocation succesfull\n");
+    putlog(log_wanted, "Allocation succesfull\n");
     newmset -> len = 0;
     newmset -> realen = initial_size;
     newmset -> minute_tab = mtab;
@@ -69,14 +69,16 @@ mset mset_reallocate(mset x, int newsize, int log_wanted){
     return x;
 }
 
-mset load_mset(int initial_set_size, int initial_int_data_size, int log_wanted){
+mset load_mset(int initial_set_size, int initial_int_data_size, int log_wanted, FILE* source_stream){
     mset x = mset_allocate(initial_set_size, log_wanted);
     if(minute_set_null(x)){
         return NULL;
     }
     x -> len = 0;
     while(1){
+        //printf("Data\n");
         if(x -> len >= x -> realen){
+            //printf("Data\n");
             //putlog(log_wanted, "UWAGA, REALOKACJA!");
             mset temp = mset_reallocate(x, x->realen + initial_set_size, log_wanted);
             if(temp == NULL){
@@ -86,7 +88,9 @@ mset load_mset(int initial_set_size, int initial_int_data_size, int log_wanted){
                 x = temp;
             }
         }
-        minute m = loadminute(initial_int_data_size, log_wanted);
+        //printf("Data\n");
+        minute m = loadminute(initial_int_data_size, log_wanted, source_stream);
+        //printf("Data\n");
         if(m == NULL){
             // printf("Sram!\n");
             return x;
@@ -98,6 +102,7 @@ mset load_mset(int initial_set_size, int initial_int_data_size, int log_wanted){
     if(x -> len < x -> realen){
         mset_reallocate(x, x -> realen, log_wanted);
     }
+    //fclose(source_stream);
     return x;
 }
 
